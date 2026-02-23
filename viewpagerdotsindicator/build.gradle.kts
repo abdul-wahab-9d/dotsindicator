@@ -27,6 +27,12 @@ android {
         kotlinCompilerExtensionVersion = "1.5.15"
     }
     namespace = "com.tbuonomo.viewpagerdotsindicator"
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
 }
 
 kotlin {
@@ -46,4 +52,17 @@ dependencies {
     implementation(libs.androidx.material3)
     testImplementation(libs.junit)
     debugImplementation(libs.androidx.ui.tooling)
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                from(components["release"])
+                groupId = "com.github.user" // JitPack will override this
+                artifactId = "viewpagerdotsindicator"
+                version = "1.0.0" // JitPack will override this
+            }
+        }
+    }
 }

@@ -157,7 +157,8 @@ class WormDotsIndicator @JvmOverloads constructor(
     }
 
     override fun refreshDotColor(index: Int) {
-        setUpDotBackground(true, dots[index])
+        val dot = dots.getOrNull(index) ?: return
+        setUpDotBackground(true, dot)
     }
 
     override fun removeDot() {
@@ -176,10 +177,11 @@ class WormDotsIndicator @JvmOverloads constructor(
                 nextPosition: Int,
                 positionOffset: Float
             ) {
-                val x = (dots[selectedPosition].parent as ViewGroup).left.toFloat()
-                val nextX =
-                    (dots[if (nextPosition == -1) selectedPosition else nextPosition].parent as ViewGroup).left
-                        .toFloat()
+                val selectedDot = dots.getOrNull(selectedPosition) ?: return
+                val nextDot = dots.getOrNull(if (nextPosition == -1) selectedPosition else nextPosition) ?: selectedDot
+
+                val x = (selectedDot.parent as ViewGroup).left.toFloat()
+                val nextX = (nextDot.parent as ViewGroup).left.toFloat()
                 val xFinalPosition: Float
                 val widthFinalPosition: Float
 

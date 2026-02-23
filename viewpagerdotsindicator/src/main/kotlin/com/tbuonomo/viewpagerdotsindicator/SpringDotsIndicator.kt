@@ -159,7 +159,8 @@ class SpringDotsIndicator @JvmOverloads constructor(
     }
 
     override fun refreshDotColor(index: Int) {
-        setUpDotBackground(true, dots[index])
+        val dot = dots.getOrNull(index) ?: return
+        setUpDotBackground(true, dot)
     }
 
     override fun buildOnPageChangedListener(): OnPageChangeListenerHelper {
@@ -174,7 +175,8 @@ class SpringDotsIndicator @JvmOverloads constructor(
                 positionOffset: Float
             ) {
                 val distance = dotsSize + dotsSpacing * 2
-                val x = (dots[selectedPosition].parent as ViewGroup).left
+                val dot = dots.getOrNull(selectedPosition) ?: return
+                val x = (dot.parent as ViewGroup).left
                 val globalPositionOffsetPixels = x + distance * positionOffset
                 dotIndicatorSpring?.animateToFinalPosition(globalPositionOffsetPixels)
             }

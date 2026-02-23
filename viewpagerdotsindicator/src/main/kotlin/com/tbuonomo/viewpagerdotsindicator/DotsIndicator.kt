@@ -122,7 +122,7 @@ class DotsIndicator @JvmOverloads constructor(
                 nextPosition: Int,
                 positionOffset: Float
             ) {
-                val selectedDot = dots[selectedPosition]
+                val selectedDot = dots.getOrNull(selectedPosition) ?: return
                 // Selected dot
                 val selectedDotWidth =
                     (dotsSize + dotsSize * (dotsWidthFactor - 1) * (1 - positionOffset)).toInt()
@@ -162,7 +162,7 @@ class DotsIndicator @JvmOverloads constructor(
             }
 
             override fun resetPosition(position: Int) {
-                dots[position].setWidth(dotsSize.toInt())
+                dots.getOrNull(position)?.setWidth(dotsSize.toInt())
                 refreshDotColor(position)
             }
 
@@ -172,7 +172,7 @@ class DotsIndicator @JvmOverloads constructor(
     }
 
     override fun refreshDotColor(index: Int) {
-        val elevationItem = dots[index]
+        val elevationItem = dots.getOrNull(index) ?: return
         val background = elevationItem.background as? DotsGradientDrawable?
 
         background?.let {
